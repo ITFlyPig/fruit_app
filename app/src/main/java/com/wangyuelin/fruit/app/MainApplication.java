@@ -48,7 +48,7 @@ public class MainApplication extends Application {
         Logger.addLogAdapter(new AndroidLogAdapter(){
             @Override
             public boolean isLoggable(int priority, String tag) {
-                return BuildConfig.DEBUG;
+                return true;
             }
         });
 

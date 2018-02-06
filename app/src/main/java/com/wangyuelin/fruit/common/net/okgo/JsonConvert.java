@@ -71,9 +71,8 @@ public class JsonConvert<T> implements Converter<T> {
         if (type == null) {
             if (clazz == null) {
                 // 如果没有通过构造函数传进来，就自动解析父类泛型的真实类型（有局限性，继承后就无法解析到）
-                //Type 是 Java 编程语言中所有类型的公共高级接口。它们包括原始类型、参数化类型、数组类型、类型变量和基本类型。
-                Type genType = getClass().getGenericSuperclass();//getGenericSuperclass方法可以获取当前对象的直接超类的 Type
-                type = ((ParameterizedType) genType).getActualTypeArguments()[0];//获取参数化类型，即T的实际类型
+                Type genType = getClass().getGenericSuperclass();
+                type = ((ParameterizedType) genType).getActualTypeArguments()[0];
             } else {
                 return parseClass(response, clazz);
             }
@@ -130,7 +129,7 @@ public class JsonConvert<T> implements Converter<T> {
 
         Type rawType = type.getRawType();                     // 泛型的实际类型
         Type typeArgument = type.getActualTypeArguments()[0]; // 泛型的参数
-        if (rawType != BaseResponse.class) {
+        if (rawType != LzyResponse.class) {
             // 泛型格式如下： new JsonCallback<外层BaseBean<内层JavaBean>>(this)
             T t = Convert.fromJson(jsonReader, type);
             response.close();
@@ -144,12 +143,12 @@ public class JsonConvert<T> implements Converter<T> {
                 return (T) simpleResponse.toBaseResponse();
             } else {
                 // 泛型格式如下： new JsonCallback<LzyResponse<内层JavaBean>>(this)
-                BaseResponse lzyResponse = Convert.fromJson(jsonReader, type);
+                LzyResponse lzyResponse = Convert.fromJson(jsonReader, type);
                 response.close();
                 int code = lzyResponse.code;
                 //这里的0是以下意思
                 //一般来说服务器会和客户端约定一个数表示成功，其余的表示失败，这里根据实际情况修改
-                if (code == 0) {
+                if (code == 1000) {
                     //noinspection unchecked
                     return (T) lzyResponse;
                 } else if (code == 104) {

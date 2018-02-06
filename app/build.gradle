@@ -34,9 +34,15 @@ dependencies {
     //picasso图片下载框架
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.google.code.gson:gson:2.8.0'
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
 
+    //rxandroid 的支持
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'io.reactivex.rxjava2:rxjava:2.1.8'
+
+    //butterknife
     compile 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:recyclerview-v7:26.0.0-alpha1'
 }
