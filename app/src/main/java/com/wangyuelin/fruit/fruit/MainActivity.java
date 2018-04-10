@@ -208,8 +208,6 @@ public class MainActivity extends BaseUIActivity {
     
     private void  getOrigin(){
         OkGo.<LzyResponse<List<MonthBean>>>get(Server.Host.host + Server.Api.GET_MONTH)//
-                .headers("aaa", "111")//
-                .params("bbb", "222")//
                 .converter(new JsonConvert<LzyResponse<List<MonthBean>>>() {
                 })//
                 .adapt(new ObservableBody<LzyResponse<List<MonthBean>>>())//
@@ -235,15 +233,20 @@ public class MainActivity extends BaseUIActivity {
                     @Override
                     public void onNext(@NonNull List<MonthBean> list) {
                         Logger.d("获取到的数据：" + list.toString());
+
                     }
 
                     @Override
                     public void onError(@NonNull Throwable e) {
                         e.printStackTrace();            //请求失败
+                        Logger.d("onError");
                     }
+
 
                     @Override
                     public void onComplete() {
+                        Logger.d("onComplete");
+
                     }
                 });
     }
